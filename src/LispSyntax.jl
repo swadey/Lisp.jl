@@ -94,7 +94,7 @@ function codegen(s; escape_exceptions = Set{Symbol}())
     elseif length(s) == 4
       :($(codegen(s[2], escape_exceptions = escape_exceptions)) ? $(codegen(s[3], escape_exceptions = escape_exceptions)) : $(codegen(s[4],  escape_exceptions = escape_exceptions)))
     else
-      throw("illegal if statement $s")
+      error("illegal if statement $s")
     end
   elseif s[1] == :def
     assert(length(s) == 3)
@@ -121,9 +121,9 @@ function codegen(s; escape_exceptions = Set{Symbol}())
   elseif s[1] == :import
      Expr(:using, map(x -> esc(x), s[2:end])...)
   elseif s[1] == :splice
-    throw("missplaced ~ (splice)")
+    error("missplaced ~ (splice)")
   elseif s[1] == :splice_seq
-    throw("missplaced ~@ (splice_seq)")
+    error("missplaced ~@ (splice_seq)")
   elseif s[1] == :quasi
     quasiquote(s[2], escape_exceptions)
   elseif s[1] == :lambda || s[1] == :fn
