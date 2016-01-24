@@ -13,4 +13,4 @@ before_install:
   - sudo apt-get install libpcre3-dev julia -y
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
 script:
-  - julia --check-bounds=yes -e 'versioninfo(); Pkg.init(); Pkg.clone("https://github.com/saltpork/Stage.jl"); Pkg.clone(pwd()); Pkg.build("LispSyntax"); Pkg.test("LispSyntax")'
+  - julia --check-bounds=yes -e 'versioninfo(); Pkg.init(); Pkg.clone(pwd()); Pkg.build("LispSyntax"); Pkg.test("LispSyntax")'
