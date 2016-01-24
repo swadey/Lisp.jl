@@ -32,8 +32,10 @@ const quasi        = E"`" + expr > (x -> sx(:quasi, x))
 const tildeseq     = E"~@" + expr > (x -> sx(:splice_seq, x))
 const tilde        = E"~" + expr > (x -> sx(:splice, x))
 
-expr.matcher = Nullable{ParserCombinator.Matcher}(doubley | floaty | inty | uchary | achary | chary | stringy | booly | symboly | macrosymy | dispatchy |
-                                                  sexpr | hashy | curly | bracket | quot | quasi | tildeseq | tilde)
+const syntax = [doubley, floaty, inty, uchary, achary, chary, stringy, booly, symboly, macrosymy,
+                sexpr, hashy, curly, bracket, quot, quasi, tildeseq, tilde]
+
+expr.matcher = Nullable{ParserCombinator.Matcher}(reduce(|, syntax))
 
 function read(str)
   x = parse_one(str, expr)
