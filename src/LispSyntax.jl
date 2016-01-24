@@ -5,16 +5,16 @@ include("parser.jl")
 export sx, desx, codegen, @lisp, @lisp_str, assign_reader_dispatch
 
 # Internal types
-type s_expr
+type SExpr
   vector
 end
 
-sx(x...) = s_expr([x...])
-==(a :: s_expr, b :: s_expr) = a.vector == b.vector
+sx(x...) = SExpr([x...])
+==(a :: SExpr, b :: SExpr) = a.vector == b.vector
 
 
 function desx(s)
-  if typeof(s) == s_expr
+  if typeof(s) == SExpr
     return map(desx, s.vector)
   elseif isa(s, Dict)
     return Dict(map(x -> desx(x[1]) => desx(x[2]), s)...)
@@ -26,7 +26,7 @@ function desx(s)
 end
 
 function lispify(s)
-  if isa(s, s_expr)
+  if isa(s, SExpr)
     return "(" * join(map(lispify, s.vector), " ") * ")"
   else
     return "$s"
@@ -160,7 +160,7 @@ function lisp_eval_helper(str :: AbstractString)
   s = desx(LispSyntax.read(str))
   return codegen(s)
 end
-    
+
 macro lisp(str)
   return lisp_eval_helper(str)
 end
