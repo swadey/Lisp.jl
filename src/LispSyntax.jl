@@ -1,8 +1,12 @@
 __precompile__()
 
 module LispSyntax
-include("parser.jl")
+
+import Base: ==, length
+
 export sx, desx, codegen, @lisp, @lisp_str, assign_reader_dispatch
+
+include("parser.jl")
 
 # Internal types
 type SExpr
@@ -10,8 +14,10 @@ type SExpr
 end
 
 sx(x...) = SExpr([x...])
-==(a :: SExpr, b :: SExpr) = a.vector == b.vector
 
+==(a::SExpr, b::SExpr) = a.vector == b.vector
+
+length(x::SExpr) = length(x.vector)
 
 function desx(s)
   if typeof(s) == SExpr
