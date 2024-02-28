@@ -103,7 +103,7 @@ jλ> (fib 10)
 ```
 
 To return to the Julia prompt, simply type the backspace type or 
-`Ctrl-C`. Once there, you'll still have access to the fuctions you 
+`Ctrl-C`. Once there, you'll still have access to the functions you 
 defined:
 ```julia
 julia> fib
